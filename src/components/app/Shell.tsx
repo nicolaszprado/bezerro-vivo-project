@@ -26,13 +26,14 @@ export function ScreenHeader({ title, subtitle, backTo = "/", right }: Props) {
 
 export function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-200 py-6">
-      <div className="mx-auto max-w-md overflow-hidden rounded-2xl bg-[#f3f4f6] shadow-xl">
+    <div className="min-h-screen bg-gray-100 sm:bg-gray-200 sm:py-6">
+      <div className="mx-auto min-h-screen w-full max-w-md bg-[#f3f4f6] sm:min-h-0 sm:overflow-hidden sm:rounded-2xl sm:shadow-xl">
         {children}
       </div>
     </div>
   );
 }
+
 
 export function Card({
   children,

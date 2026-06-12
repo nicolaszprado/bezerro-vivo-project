@@ -13,8 +13,9 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <div className="min-h-screen bg-gray-200 py-6">
-      <div className="mx-auto max-w-md overflow-hidden rounded-2xl bg-white shadow-xl">
+    <div className="min-h-screen bg-gray-100 sm:bg-gray-200 sm:py-6">
+      <div className="mx-auto min-h-screen w-full max-w-md bg-white sm:min-h-0 sm:overflow-hidden sm:rounded-2xl sm:shadow-xl">
+
         <div className="bg-gradient-to-br from-green-600 to-green-700 px-6 py-10 text-white">
           <Beef className="mb-3 h-10 w-10" />
           <h1 className="text-2xl font-bold">Gestão de Bezerros</h1>
