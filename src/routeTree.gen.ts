@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BezerrosIdRouteImport } from './routes/bezerros.$id'
 
 const RelatoriosRoute = RelatoriosRouteImport.update({
   id: '/relatorios',
   path: '/relatorios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,30 +37,34 @@ const BezerrosIdRoute = BezerrosIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/marketplace': typeof MarketplaceRoute
   '/relatorios': typeof RelatoriosRoute
   '/bezerros/$id': typeof BezerrosIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/marketplace': typeof MarketplaceRoute
   '/relatorios': typeof RelatoriosRoute
   '/bezerros/$id': typeof BezerrosIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/marketplace': typeof MarketplaceRoute
   '/relatorios': typeof RelatoriosRoute
   '/bezerros/$id': typeof BezerrosIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/relatorios' | '/bezerros/$id'
+  fullPaths: '/' | '/marketplace' | '/relatorios' | '/bezerros/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/relatorios' | '/bezerros/$id'
-  id: '__root__' | '/' | '/relatorios' | '/bezerros/$id'
+  to: '/' | '/marketplace' | '/relatorios' | '/bezerros/$id'
+  id: '__root__' | '/' | '/marketplace' | '/relatorios' | '/bezerros/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MarketplaceRoute: typeof MarketplaceRoute
   RelatoriosRoute: typeof RelatoriosRoute
   BezerrosIdRoute: typeof BezerrosIdRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/relatorios'
       fullPath: '/relatorios'
       preLoaderRoute: typeof RelatoriosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MarketplaceRoute: MarketplaceRoute,
   RelatoriosRoute: RelatoriosRoute,
   BezerrosIdRoute: BezerrosIdRoute,
 }
