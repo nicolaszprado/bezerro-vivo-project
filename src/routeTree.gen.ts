@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BezerrosIdRouteImport } from './routes/bezerros.$id'
 
 const RelatoriosRoute = RelatoriosRouteImport.update({
   id: '/relatorios',
@@ -22,31 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BezerrosIdRoute = BezerrosIdRouteImport.update({
+  id: '/bezerros/$id',
+  path: '/bezerros/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/relatorios': typeof RelatoriosRoute
+  '/bezerros/$id': typeof BezerrosIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/relatorios': typeof RelatoriosRoute
+  '/bezerros/$id': typeof BezerrosIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/relatorios': typeof RelatoriosRoute
+  '/bezerros/$id': typeof BezerrosIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/relatorios'
+  fullPaths: '/' | '/relatorios' | '/bezerros/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/relatorios'
-  id: '__root__' | '/' | '/relatorios'
+  to: '/' | '/relatorios' | '/bezerros/$id'
+  id: '__root__' | '/' | '/relatorios' | '/bezerros/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RelatoriosRoute: typeof RelatoriosRoute
+  BezerrosIdRoute: typeof BezerrosIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bezerros/$id': {
+      id: '/bezerros/$id'
+      path: '/bezerros/$id'
+      fullPath: '/bezerros/$id'
+      preLoaderRoute: typeof BezerrosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RelatoriosRoute: RelatoriosRoute,
+  BezerrosIdRoute: BezerrosIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
