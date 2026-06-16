@@ -1,4 +1,4 @@
-# Calf Compass App 🐄
+# Bezerro Vivo App 🐄
 
 ## Como Rodar o Projeto
 
