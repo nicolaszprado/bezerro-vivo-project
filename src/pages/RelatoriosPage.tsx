@@ -1,20 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Lightbulb } from "lucide-react";
+
 import { PhoneFrame, ScreenHeader, Card } from "@/components/app/Shell";
 import { BarChart } from "@/components/app/Charts";
 import { useCalves, totalCost, formatBRL } from "@/lib/calves-store";
+import { useNavigate } from "@/lib/router";
 
-export const Route = createFileRoute("/relatorios")({
-  head: () => ({
-    meta: [
-      { title: "Relatórios — Gestão de Bezerros" },
-      { name: "description", content: "Análise de custos e desempenho dos bezerros" },
-    ],
-  }),
-  component: RelatoriosPage,
-});
-
-function RelatoriosPage() {
+export function RelatoriosPage() {
   const { calves } = useCalves();
   const navigate = useNavigate();
 
@@ -50,7 +41,7 @@ function RelatoriosPage() {
 
   return (
     <PhoneFrame>
-      <ScreenHeader title="Relatórios" subtitle="Análise de custos e desempenho" backTo="/" />
+      <ScreenHeader title="Relatórios" subtitle="Análise de custos e desempenho" />
       <div className="space-y-4 p-4">
         <Card>
           <BarChart bars={bars} />
@@ -70,7 +61,7 @@ function RelatoriosPage() {
           {sorted.map((c) => (
             <button
               key={c.id}
-              onClick={() => navigate({ to: "/bezerros/$id", params: { id: c.id } })}
+              onClick={() => navigate({ to: "/bezerros/:id", params: { id: c.id } })}
               className="grid w-full grid-cols-[1fr_1fr_auto] gap-2 border-t border-gray-100 px-4 py-3 text-left text-sm hover:bg-gray-50"
             >
               <span className="font-semibold text-gray-900">{c.id}</span>
@@ -88,8 +79,8 @@ function RelatoriosPage() {
             <h2 className="font-bold text-gray-900">Insights</h2>
           </div>
           <div className="rounded-lg border border-orange-200 bg-orange-50 p-3 text-sm text-gray-800">
-            <span className="font-semibold">Atenção:</span> Você tem bezerros com custo muito acima
-            da média. Considere avaliar se vale a pena continuar o investimento.
+            <span className="font-semibold">Atenção:</span> Você tem bezerros com custo muito
+            acima da média. Considere avaliar se vale a pena continuar o investimento.
           </div>
           <p className="mt-2 text-xs text-gray-500">
             Custo máximo: {formatBRL(max)} · Média: {formatBRL(avg)}

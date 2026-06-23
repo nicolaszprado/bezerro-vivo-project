@@ -1,17 +1,17 @@
 import * as React from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Search, Filter, Scale, CalendarDays, Sprout, Lightbulb } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Scale,
+  CalendarDays,
+  Sprout,
+  Lightbulb,
+} from "lucide-react";
+
 import { PhoneFrame, ScreenHeader, Card } from "@/components/app/Shell";
 import { useCalves, formatBRL, type Calf } from "@/lib/calves-store";
 
-export const Route = createFileRoute("/marketplace")({
-  head: () => ({
-    meta: [{ title: "Marketplace — Bezerros à venda" }],
-  }),
-  component: MarketplacePage,
-});
-
-function MarketplacePage() {
+export function MarketplacePage() {
   const { calves } = useCalves();
   const [q, setQ] = React.useState("");
   const [priceFilter, setPriceFilter] = React.useState("all");
@@ -43,7 +43,6 @@ function MarketplacePage() {
       <ScreenHeader
         title="Marketplace"
         subtitle={`${filtered.length} bezerro${filtered.length === 1 ? "" : "s"} disponíve${filtered.length === 1 ? "l" : "is"}`}
-        backTo="/"
       />
       <div className="space-y-4 p-4">
         <div className="relative">
@@ -69,10 +68,12 @@ function MarketplacePage() {
           >
             <option value="all">Todos os preços</option>
             <option value="low">Até R$ 1.000</option>
-            <option value="mid">R$ 1.000 – R$ 2.000</option>
+            <option value="mid">R$ 1.000 - R$ 2.000</option>
             <option value="high">Acima de R$ 2.000</option>
           </select>
-          <label className="mb-1 block text-xs font-semibold text-gray-700">Idade (meses)</label>
+          <label className="mb-1 block text-xs font-semibold text-gray-700">
+            Idade (meses)
+          </label>
           <select
             className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm"
             value={ageFilter}
@@ -80,14 +81,16 @@ function MarketplacePage() {
           >
             <option value="all">Todas as idades</option>
             <option value="young">Até 3 meses</option>
-            <option value="mid">4 – 8 meses</option>
+            <option value="mid">4 - 8 meses</option>
             <option value="old">Mais de 8 meses</option>
           </select>
         </Card>
 
         {filtered.length === 0 && (
           <Card>
-            <p className="py-6 text-center text-sm text-gray-500">Nenhum bezerro encontrado.</p>
+            <p className="py-6 text-center text-sm text-gray-500">
+              Nenhum bezerro encontrado.
+            </p>
           </Card>
         )}
 
@@ -99,8 +102,9 @@ function MarketplacePage() {
           <div className="flex items-start gap-2">
             <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
             <p>
-              <span className="font-semibold text-blue-700">Marketplace:</span> Aqui você encontra
-              bezerros de outros produtores que estão à venda. Entre em contato para negociar!
+              <span className="font-semibold text-blue-700">Marketplace:</span> Aqui você
+              encontra bezerros de outros produtores que estão à venda. Entre em contato para
+              negociar!
             </p>
           </div>
         </div>

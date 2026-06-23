@@ -1,6 +1,15 @@
 import * as React from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Wrench, Pill, Wheat, Plus, ShoppingCart, Pencil, Trash2, X } from "lucide-react";
+import {
+  Wrench,
+  Pill,
+  Wheat,
+  Plus,
+  ShoppingCart,
+  Pencil,
+  Trash2,
+  X,
+} from "lucide-react";
+
 import { PhoneFrame, ScreenHeader, Card } from "@/components/app/Shell";
 import { PieChart } from "@/components/app/Charts";
 import {
@@ -9,13 +18,7 @@ import {
   formatBRL,
   type CostCategory,
 } from "@/lib/calves-store";
-
-export const Route = createFileRoute("/bezerros/$id")({
-  head: ({ params }) => ({
-    meta: [{ title: `${params.id} — Detalhes do Bezerro` }],
-  }),
-  component: CalfDetail,
-});
+import { useNavigate } from "@/lib/router";
 
 const catColors: Record<CostCategory, string> = {
   Alimentação: "#3b82f6",
@@ -38,8 +41,7 @@ const catTextColor: Record<CostCategory, string> = {
   Outros: "text-gray-700",
 };
 
-function CalfDetail() {
-  const { id } = Route.useParams();
+export function CalfDetailPage({ id }: { id: string }) {
   const navigate = useNavigate();
   const { getCalf, addCost, listForSale, updateCalf, removeCalf } = useCalves();
   const calf = getCalf(id);
@@ -190,7 +192,15 @@ function CalfDetail() {
   );
 }
 
-function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
+function Modal({
+  title,
+  onClose,
+  children,
+}: {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center">
       <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl">
@@ -215,11 +225,17 @@ function AddCostModal({
   onSave,
 }: {
   onClose: () => void;
-  onSave: (c: { category: CostCategory; description: string; date: string; amount: number }) => void;
+  onSave: (c: {
+    category: CostCategory;
+    description: string;
+    date: string;
+    amount: number;
+  }) => void;
 }) {
   const [category, setCategory] = React.useState<CostCategory>("Alimentação");
   const [description, setDescription] = React.useState("");
   const [amount, setAmount] = React.useState("");
+
   return (
     <Modal title="Adicionar Custo" onClose={onClose}>
       <div className="space-y-3">
@@ -238,11 +254,22 @@ function AddCostModal({
         </div>
         <div>
           <label className={labelCls}>Descrição</label>
-          <input className={inputCls} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Ex: Ração premium" />
+          <input
+            className={inputCls}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Ex: Ração premium"
+          />
         </div>
         <div>
           <label className={labelCls}>Valor (R$)</label>
-          <input className={inputCls} type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} />
+          <input
+            className={inputCls}
+            type="number"
+            step="0.01"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
         </div>
         <button
           onClick={() => {
@@ -250,7 +277,20 @@ function AddCostModal({
             if (!description || !v) return;
             const d = new Date();
             const date = `${String(d.getDate()).padStart(2, "0")} de ${
-              ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"][d.getMonth()]
+              [
+                "janeiro",
+                "fevereiro",
+                "março",
+                "abril",
+                "maio",
+                "junho",
+                "julho",
+                "agosto",
+                "setembro",
+                "outubro",
+                "novembro",
+                "dezembro",
+              ][d.getMonth()]
             }`;
             onSave({ category, description, date, amount: v });
           }}
@@ -274,21 +314,38 @@ function SaleModal({
   const [weight, setWeight] = React.useState("38");
   const [age, setAge] = React.useState("2");
   const [type, setType] = React.useState("Misto");
+
   return (
     <Modal title="Colocar à Venda" onClose={onClose}>
       <div className="space-y-3">
         <div>
           <label className={labelCls}>Preço (R$)</label>
-          <input className={inputCls} type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <input
+            className={inputCls}
+            type="number"
+            step="0.01"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className={labelCls}>Peso (kg)</label>
-            <input className={inputCls} type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+            <input
+              className={inputCls}
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+            />
           </div>
           <div>
             <label className={labelCls}>Idade (meses)</label>
-            <input className={inputCls} type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+            <input
+              className={inputCls}
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
           </div>
         </div>
         <div>
@@ -296,7 +353,9 @@ function SaleModal({
           <input className={inputCls} value={type} onChange={(e) => setType(e.target.value)} />
         </div>
         <button
-          onClick={() => onConfirm(parseFloat(price) || 0, parseFloat(weight) || 0, parseFloat(age) || 0, type)}
+          onClick={() =>
+            onConfirm(parseFloat(price) || 0, parseFloat(weight) || 0, parseFloat(age) || 0, type)
+          }
           className="w-full rounded-lg bg-green-600 py-2.5 font-semibold text-white hover:bg-green-700"
         >
           Confirmar
@@ -319,6 +378,7 @@ function EditModal({
 }) {
   const [n, setN] = React.useState(name);
   const [b, setB] = React.useState(breed);
+
   return (
     <Modal title="Editar Bezerro" onClose={onClose}>
       <div className="space-y-3">
